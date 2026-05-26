@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping
+@RequestMapping("/api/players")
 public class PlayerController {
     private final PlayerService playerService;
 
@@ -27,22 +27,20 @@ public class PlayerController {
         return playerService.getAllPlayers();
     }
 
-    @GetMapping
+    @GetMapping("/{id}")
     public Optional<Player> getPlayerById(@PathVariable Long id){
         return playerService.getPlayerById(id);
     }
 
-    @PutMapping
-    public Player update(@PathVariable Long id,@RequestBody Player updatePlayer){
+    @PutMapping("/{id}")
+    public Player updatePlayer(@PathVariable Long id,@RequestBody Player updatePlayer){
         return playerService.updatePlayer(id,updatePlayer);
     }
 
+    @DeleteMapping("/{id")
     public String deletePlayer(@PathVariable Long id){
         playerService.deletePlayer(id);
         return "Player delete successfully";
     }
-
-
-
-
+    
 }
