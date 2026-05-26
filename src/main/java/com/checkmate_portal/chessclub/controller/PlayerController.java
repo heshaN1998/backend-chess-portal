@@ -37,10 +37,10 @@ public class PlayerController {
         return playerService.updatePlayer(id,updatePlayer);
     }
 
-    @DeleteMapping("/{id")
+    @DeleteMapping("/{id}")
     public String deletePlayer(@PathVariable Long id){
         playerService.deletePlayer(id);
         return "Player delete successfully";
     }
-    
+
 }
