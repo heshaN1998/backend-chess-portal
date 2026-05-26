@@ -1,5 +1,6 @@
 package com.checkmate_portal.chessclub.entity;
 
+import com.checkmate_portal.chessclub.enums.Level;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,19 +14,20 @@ public class Player {
     private Integer age;
     private Integer fideRating;
     private Integer experienceYears;
-    private String level;
+    @Enumerated(EnumType.STRING)
+    private Level level;
 
     public Player() {
     }
 
-    public Player(Long id, String name, String country, Integer age, Integer fideRating, Integer experienceYears, String level) {
+    public Player(Long id, String name, String country, Integer age, Integer fideRating, Integer experienceYears,Level level) {
         this.id = id;
         this.name = name;
         this.country = country;
         this.age = age;
         this.fideRating = fideRating;
         this.experienceYears = experienceYears;
-        this.level = level;
+        this.level=level;
     }
 
     public Long getId() {
@@ -52,7 +54,7 @@ public class Player {
         return experienceYears;
     }
 
-    public String getLevel() {
+    public Level getLevel() {
         return level;
     }
 
@@ -80,7 +82,7 @@ public class Player {
         this.experienceYears = experienceYears;
     }
 
-    public void setLevel(String level) {
+    public void setLevel(Level level) {
         this.level = level;
     }
 }
