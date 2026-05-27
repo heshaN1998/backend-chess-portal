@@ -1,5 +1,6 @@
 package com.checkmate_portal.chessclub.service;
 
+import com.checkmate_portal.chessclub.EntityDtoConverter.PlayerConverter;
 import com.checkmate_portal.chessclub.entity.Player;
 import com.checkmate_portal.chessclub.repository.PlayerRepository;
 import org.springframework.stereotype.Service;
@@ -10,9 +11,11 @@ import java.util.Optional;
 @Service
 public class PlayerService {
     private final PlayerRepository playerRepository;
+    private final PlayerConverter playerConverter;
 
-    public PlayerService(PlayerRepository playerRepository){
+    public PlayerService(PlayerRepository playerRepository, PlayerConverter playerConverter){
         this.playerRepository=playerRepository;
+        this.playerConverter=playerConverter;
     }
 
     public Player createPlayer(Player player){
