@@ -1,5 +1,7 @@
 package com.checkmate_portal.chessclub.controller;
 
+import com.checkmate_portal.chessclub.dtos.PlayerRequestDTO;
+import com.checkmate_portal.chessclub.dtos.PlayerResponseDTO;
 import com.checkmate_portal.chessclub.entity.Player;
 import com.checkmate_portal.chessclub.service.PlayerService;
 import org.springframework.web.bind.annotation.*;
@@ -18,23 +20,23 @@ public class PlayerController {
     }
 
     @PostMapping
-    public Player createPlayer(@RequestBody Player player){
-        return playerService.createPlayer(player);
+    public PlayerResponseDTO createPlayer(@RequestBody PlayerRequestDTO requestDTO){
+        return playerService.createPlayer(requestDTO);
     }
 
     @GetMapping
-    public List<Player> getAllPlayer(){
+    public List<PlayerResponseDTO> getAllPlayer(){
         return playerService.getAllPlayers();
     }
 
     @GetMapping("/{id}")
-    public Optional<Player> getPlayerById(@PathVariable Long id){
+    public PlayerResponseDTO getPlayerById(@PathVariable Long id){
         return playerService.getPlayerById(id);
     }
 
     @PutMapping("/{id}")
-    public Player updatePlayer(@PathVariable Long id,@RequestBody Player updatePlayer){
-        return playerService.updatePlayer(id,updatePlayer);
+    public PlayerResponseDTO updatePlayer(@PathVariable Long id,@RequestBody PlayerRequestDTO requestDTO){
+        return playerService.updatePlayer(id,requestDTO);
     }
 
     @DeleteMapping("/{id}")

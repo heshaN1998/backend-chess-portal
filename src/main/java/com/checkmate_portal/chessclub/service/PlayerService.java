@@ -1,44 +1,55 @@
 package com.checkmate_portal.chessclub.service;
 
 import com.checkmate_portal.chessclub.EntityDtoConverter.PlayerConverter;
+import com.checkmate_portal.chessclub.dtos.PlayerRequestDTO;
+import com.checkmate_portal.chessclub.dtos.PlayerResponseDTO;
 import com.checkmate_portal.chessclub.entity.Player;
 import com.checkmate_portal.chessclub.repository.PlayerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class PlayerService {
+
     private final PlayerRepository playerRepository;
     private final PlayerConverter playerConverter;
+
 
     public PlayerService(PlayerRepository playerRepository, PlayerConverter playerConverter){
         this.playerRepository=playerRepository;
         this.playerConverter=playerConverter;
     }
 
-    public Player createPlayer(Player player){
-        return playerRepository.save(player);
+    public PlayerResponseDTO createPlayer(PlayerRequestDTO requestDTO){
+        Player player=playerConverter.rquestDtoToEntity(requestDTO);
+        Player savedPlayer=playerRepository.save(player);
+        return playerConverter.entityToDtos(savedPlayer);
     }
-    public List<Player> getAllPlayers(){
-        return playerRepository.findAll();
+    public List<PlayerResponseDTO> getAllPlayers(){
+        List<Player> players=playerRepository.findAll();
+        return players.stream().map(playerConverter::entityToDtos).toList();
     }
-    public Optional<Player> getPlayerById(Long id){
-        return playerRepository.findById(id);
+    public PlayerResponseDTO getPlayerById(Long id){
+        Player player=playerRepository.findById(id).orElseThrow(()->new RuntimeException("Player not found"));
+        return playerConverter.entityToDtos(player);
     }
 
-    public Player updatePlayer(Long id,Player updatePlayer){
+    public PlayerResponseDTO updatePlayer(Long id,PlayerRequestDTO requestDTO){
         Player player=playerRepository.findById(id).orElseThrow(()->new RuntimeException("Player not found"));
 
-        player.setName(updatePlayer.getName());
-        player.setCountry(updatePlayer.getCountry());
-        player.setAge(updatePlayer.getAge());
-        player.setFideRating(updatePlayer.getFideRating());
-        player.setExperienceYears(updatePlayer.getExperienceYears());
-        player.setLevel(updatePlayer.getLevel());
+        player.setName(requestDTO.getName());
+        player.setCountry(requestDTO.getCountry());
+        player.setAge(requestDTO.getAge());
+        player.setFideRating(requestDTO.getFideRating());
+        player.setExperienceYears(requestDTO.getExperienceYears());
+        player.setLevel(requestDTO.getLevel());
 
-        return playerRepository.save(player);
+        Player updatedPlayer=playerRepository.save(player);
+
+        return playerConverter.entityToDtos(updatedPlayer);
     }
     public void deletePlayer(Long id){
         playerRepository.findById(id).orElseThrow(()->new RuntimeException("Player not found"));
