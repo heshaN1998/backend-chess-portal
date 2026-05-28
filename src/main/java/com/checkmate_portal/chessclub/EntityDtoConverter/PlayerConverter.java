@@ -3,7 +3,9 @@ package com.checkmate_portal.chessclub.EntityDtoConverter;
 import com.checkmate_portal.chessclub.dtos.PlayerRequestDTO;
 import com.checkmate_portal.chessclub.dtos.PlayerResponseDTO;
 import com.checkmate_portal.chessclub.entity.Player;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PlayerConverter {
     //converting Req DTOs to Entity
     public Player rquestDtoToEntity(PlayerRequestDTO dto){

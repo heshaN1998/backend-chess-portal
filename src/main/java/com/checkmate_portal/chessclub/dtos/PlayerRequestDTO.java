@@ -1,13 +1,22 @@
 package com.checkmate_portal.chessclub.dtos;
 
 import com.checkmate_portal.chessclub.enums.Level;
+import jakarta.validation.constraints.*;
 
 public class PlayerRequestDTO {
+    @NotBlank(message = "name is required")
+    @Size(min = 2,max = 30,message = "name must be 2-30 letters")
     private String name;
+    @NotBlank(message = "country is required")
     private String country;
+    @NotNull(message = "age must required")
+    @Min(value = 4,message = "Age must be at least 4")
+    @Max(value = 60,message = "Age must be less than 60")
     private Integer age;
     private Integer fideRating;
+    @NotNull(message = "required experienced years")
     private Integer experienceYears;
+    @NotNull(message ="BEGGINER|INTERMEDIATE|EXPERT")
     private Level level;
 
     public PlayerRequestDTO(){

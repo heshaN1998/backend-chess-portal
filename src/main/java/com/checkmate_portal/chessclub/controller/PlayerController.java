@@ -4,6 +4,7 @@ import com.checkmate_portal.chessclub.dtos.PlayerRequestDTO;
 import com.checkmate_portal.chessclub.dtos.PlayerResponseDTO;
 import com.checkmate_portal.chessclub.entity.Player;
 import com.checkmate_portal.chessclub.service.PlayerService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -20,7 +21,7 @@ public class PlayerController {
     }
 
     @PostMapping
-    public PlayerResponseDTO createPlayer(@RequestBody PlayerRequestDTO requestDTO){
+    public PlayerResponseDTO createPlayer(@Valid @RequestBody PlayerRequestDTO requestDTO){
         return playerService.createPlayer(requestDTO);
     }
 
@@ -35,7 +36,7 @@ public class PlayerController {
     }
 
     @PutMapping("/{id}")
-    public PlayerResponseDTO updatePlayer(@PathVariable Long id,@RequestBody PlayerRequestDTO requestDTO){
+    public PlayerResponseDTO updatePlayer(@Valid @PathVariable Long id,@RequestBody PlayerRequestDTO requestDTO){
         return playerService.updatePlayer(id,requestDTO);
     }
 
