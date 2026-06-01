@@ -4,6 +4,7 @@ import com.checkmate_portal.chessclub.EntityDtoConverter.PlayerConverter;
 import com.checkmate_portal.chessclub.dtos.PlayerRequestDTO;
 import com.checkmate_portal.chessclub.dtos.PlayerResponseDTO;
 import com.checkmate_portal.chessclub.entity.Player;
+import com.checkmate_portal.chessclub.enums.Level;
 import com.checkmate_portal.chessclub.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,5 +56,15 @@ public class PlayerService {
         playerRepository.findById(id).orElseThrow(()->new RuntimeException("Player not found"));
         playerRepository.deleteById(id);
     }
+    public  List<PlayerResponseDTO> getPlayerByCountry(String country){
+        return playerRepository.findByCountry(country).stream().map(playerConverter::entityToDtos).toList();
+    }
+    public List<PlayerResponseDTO> getPlayerByLevele(Level level){
+        return playerRepository.findByLevel(level).stream().map(playerConverter::entityToDtos).toList();
+    }
+    public List<PlayerResponseDTO> getStrongPlayers(Integer rating){
+        return playerRepository.strongPlayer(rating).stream().map(playerConverter::entityToDtos).toList();
+    }
+
 
 }
