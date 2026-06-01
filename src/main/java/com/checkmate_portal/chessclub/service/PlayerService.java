@@ -7,6 +7,8 @@ import com.checkmate_portal.chessclub.entity.Player;
 import com.checkmate_portal.chessclub.enums.Level;
 import com.checkmate_portal.chessclub.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +21,9 @@ public class PlayerService {
     private final PlayerConverter playerConverter;
 
 
+    public Page<Player> getPlayers(Pageable pageable){
+        return playerRepository.findAll(pageable);
+    }
     public PlayerService(PlayerRepository playerRepository, PlayerConverter playerConverter){
         this.playerRepository=playerRepository;
         this.playerConverter=playerConverter;

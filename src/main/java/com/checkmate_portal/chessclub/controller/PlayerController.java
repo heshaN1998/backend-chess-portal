@@ -6,6 +6,8 @@ import com.checkmate_portal.chessclub.entity.Player;
 import com.checkmate_portal.chessclub.enums.Level;
 import com.checkmate_portal.chessclub.service.PlayerService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -58,6 +60,10 @@ public class PlayerController {
     @GetMapping("/rating/{rating}")
     public List<PlayerResponseDTO> getStrongPlayers(@PathVariable Integer rating){
         return playerService.findByGreaterFideRating(rating);
+    }
+    @GetMapping("/paged")
+    public Page<Player> getPlayers(Pageable pageable){
+        return playerService.getPlayers(pageable);
     }
 
 
