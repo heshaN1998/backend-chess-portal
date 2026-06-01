@@ -3,6 +3,7 @@ package com.checkmate_portal.chessclub.controller;
 import com.checkmate_portal.chessclub.dtos.PlayerRequestDTO;
 import com.checkmate_portal.chessclub.dtos.PlayerResponseDTO;
 import com.checkmate_portal.chessclub.entity.Player;
+import com.checkmate_portal.chessclub.enums.Level;
 import com.checkmate_portal.chessclub.service.PlayerService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
@@ -45,5 +46,19 @@ public class PlayerController {
         playerService.deletePlayer(id);
         return "Player delete successfully";
     }
+    @GetMapping("country/{country}")
+    public List<PlayerResponseDTO> getPlayerByCountry(@PathVariable String country){
+        return playerService.getPlayerByCountry(country);
+
+    }
+    @GetMapping("/level/{level}")
+    public  List<PlayerResponseDTO> getPlayerByLevel(@PathVariable Level level){
+        return playerService.getPlayerByLevel(level);
+    }
+    @GetMapping("/rating/{rating}")
+    public List<PlayerResponseDTO> getStrongPlayers(@PathVariable Integer rating){
+        return playerService.findByGreaterFideRating(rating);
+    }
+
 
 }

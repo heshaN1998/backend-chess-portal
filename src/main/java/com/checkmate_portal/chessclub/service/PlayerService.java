@@ -59,10 +59,10 @@ public class PlayerService {
     public  List<PlayerResponseDTO> getPlayerByCountry(String country){
         return playerRepository.findByCountry(country).stream().map(playerConverter::entityToDtos).toList();
     }
-    public List<PlayerResponseDTO> getPlayerByLevele(Level level){
+    public List<PlayerResponseDTO> getPlayerByLevel(Level level){
         return playerRepository.findByLevel(level).stream().map(playerConverter::entityToDtos).toList();
     }
-    public List<PlayerResponseDTO> getStrongPlayers(Integer rating){
+    public List<PlayerResponseDTO> findByGreaterFideRating(Integer rating){
         return playerRepository.strongPlayer(rating).stream().map(playerConverter::entityToDtos).toList();
     }
 

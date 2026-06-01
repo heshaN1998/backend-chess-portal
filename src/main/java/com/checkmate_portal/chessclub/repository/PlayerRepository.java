@@ -12,8 +12,8 @@ import java.util.List;
 public interface PlayerRepository extends JpaRepository<Player,Long> {
 List<Player> findByCountry(String country);
 List<Player> findByLevel(Level level);
-List<Player> findByGreaterFideRating(Integer rating);
+List<Player> findByFideRatingGreaterThan(Integer fideRating);
 
 @Query("select x FROM Player x WHERE x.fideRating >:rating")
-List<Player> strongPlayer(Integer rating);
+List<Player> strongPlayer(Integer fideRating);
 }
