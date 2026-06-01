@@ -62,7 +62,7 @@ public class PlayerController {
         return playerService.findByGreaterFideRating(rating);
     }
     @GetMapping("/paged")
-    public Page<Player> getPlayers(Pageable pageable){
+    public Page<PlayerResponseDTO> getPlayers(Pageable pageable){
         return playerService.getPlayers(pageable);
     }
 

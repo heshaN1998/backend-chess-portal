@@ -21,8 +21,8 @@ public class PlayerService {
     private final PlayerConverter playerConverter;
 
 
-    public Page<Player> getPlayers(Pageable pageable){
-        return playerRepository.findAll(pageable);
+    public Page<PlayerResponseDTO> getPlayers(Pageable pageable){
+        return playerRepository.findAll(pageable).map(playerConverter::entityToDtos);
     }
     public PlayerService(PlayerRepository playerRepository, PlayerConverter playerConverter){
         this.playerRepository=playerRepository;
