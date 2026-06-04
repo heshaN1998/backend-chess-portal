@@ -11,16 +11,16 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
-    private final String SECRET="HACKING2018Heshan";
+    private final String SECRET="HACKING2018Heshan20182018hACKERSONLY";
     private Key getKey(){
-        return Keys.hmacShaKeyFor(SECRET.getBytes());
+        return Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
     }
     //Creating token Section
     public String generateToken(String userName){
-        return Jwts.builder().setSubject(userName).setIssuedAt(new Date()).setExpiration(new Date(System.currentTimeMillis() + 1000*60*60)).signWith(getKey(), SignatureAlgorithm.ES256).compact();
+        return Jwts.builder().setSubject(userName).setIssuedAt(new Date()).setExpiration(new Date(System.currentTimeMillis() + 1000*60*60)).signWith(getKey(), SignatureAlgorithm.HS256).compact();
     }
     //Extract userName
     public String extractUsername(String token){
-        return Jwts.parser().setSigningKey(getKey()).build().parseClaimsJwt(token).getBody().getSubject();
+        return Jwts.parser().setSigningKey(getKey()).build().parseClaimsJws(token).getBody().getSubject();
     }
 }
