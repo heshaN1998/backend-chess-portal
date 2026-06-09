@@ -10,10 +10,23 @@ import java.util.List;
 
 @Repository
 public interface PlayerRepository extends JpaRepository<Player,Long> {
-List<Player> findByCountry(String country);
-List<Player> findByLevel(Level level);
-List<Player> findByFideRatingGreaterThan(Integer fideRating);
+    List<Player> findByCountry(String country);
 
-@Query("select x FROM Player x WHERE x.fideRating >:rating")
-List<Player> strongPlayer(Integer fideRating);
+    List<Player> findByLevel(Level level);
+
+    List<Player> findByFideRatingGreaterThan(Integer fideRating);
+
+    @Query("select x FROM Player x WHERE x.fideRating >:rating")
+    List<Player> strongPlayer(Integer fideRating);
+
+    //DASHBORD SECTION
+    @Query("SELECT COUNT(x) FROM Player x")
+    Long totalPlayers();
+
+    @Query("SELECT AVG(x.fideRating) FROM Player x")
+    Double averageRating();
+
+    @Query("SELECT x FROM Player x ORDER BY x.fideRating DESC LIMIT 1")
+    Player topPlayer();
 }
+

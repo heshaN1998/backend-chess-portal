@@ -71,5 +71,16 @@ public class PlayerService {
         return playerRepository.strongPlayer(rating).stream().map(playerConverter::entityToDtos).toList();
     }
 
+    //DASHBORD SECTION
+    public Long getTotalPlayers(){
+        return playerRepository.totalPlayers();
+    }
+    public  Double getAverageRating(){
+        return playerRepository.averageRating();
+    }
+    public Player getTopPlayer(){
+        return playerRepository.topPlayer();
+    }
+
 
 }
