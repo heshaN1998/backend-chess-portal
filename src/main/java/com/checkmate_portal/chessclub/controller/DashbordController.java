@@ -15,7 +15,7 @@ public class DashbordController {
     public DashbordController(PlayerService playerService) {
         this.playerService = playerService;
     }
-    
+
     @GetMapping("/stats")
     public Map<String,Object> getStats(){
         Map<String,Object> stats=new HashMap<>();
