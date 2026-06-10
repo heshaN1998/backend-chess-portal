@@ -33,6 +33,10 @@ public class JwtFilter extends OncePerRequestFilter {
             token=authheader.substring(7);
             userName=jwtUtil.extractUsername(token);
         }
+        if(request.getServletPath().startsWith("/auth/")){
+            filterChain.doFilter(request,response);
+            return;
+        }
         if (userName != null && SecurityContextHolder.getContext().getAuthentication()==null){
             UsernamePasswordAuthenticationToken authToken= new UsernamePasswordAuthenticationToken(userName,null, Collections.emptyList());
 
