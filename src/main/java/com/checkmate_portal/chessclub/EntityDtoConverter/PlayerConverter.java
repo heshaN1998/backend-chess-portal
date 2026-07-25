@@ -31,6 +31,9 @@ public class PlayerConverter {
         dto.setFideRating(player.getFideRating());
         dto.setExperienceYears(player.getExperienceYears());
         dto.setLevel(player.getLevel());
+        if (player.getProfilePicturePath()!= null){
+            dto.setProfilePictureUrl("/uploads/"+player.getProfilePicturePath());
+        }
         return dto;
 
     }

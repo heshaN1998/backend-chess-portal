@@ -16,6 +16,7 @@ public class Player {
     private Integer experienceYears;
     @Enumerated(EnumType.STRING)
     private Level level;
+    private String profilePicturePath;
 
     public Player() {
     }
@@ -84,6 +85,14 @@ public class Player {
 
     public void setLevel(Level level) {
         this.level = level;
+    }
+
+    public String getProfilePicturePath() {
+        return profilePicturePath;
+    }
+
+    public void setProfilePicturePath(String profilePicturePath) {
+        this.profilePicturePath = profilePicturePath;
     }
 }
 

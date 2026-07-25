@@ -10,6 +10,7 @@ public class PlayerResponseDTO {
     private Integer fideRating;
     private Integer experienceYears;
     private Level level;
+    private String profilePictureUrl;
 
     public PlayerResponseDTO(){
 
@@ -66,5 +67,11 @@ public class PlayerResponseDTO {
     }
     public Level getLevel() {
         return level;
+    }
+    public  String getProfilePictureUrl(){
+        return profilePictureUrl;
+    }
+    public void setProfilePictureUrl(String profilePictureUrl){
+        this.profilePictureUrl=profilePictureUrl;
     }
 }
