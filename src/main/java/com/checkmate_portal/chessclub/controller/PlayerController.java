@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 
 
@@ -72,6 +73,10 @@ public class PlayerController {
     @GetMapping("/paged")
     public Page<PlayerResponseDTO> getPlayers(Pageable pageable){
         return playerService.getPlayers(pageable);
+    }
+    @PostMapping(value = "/{id}/photo", consumes = "multipart/form-data")
+    public PlayerResponseDTO uploadPhoto(@PathVariable Long id, @RequestParam ("file") MultipartFile file){
+        return playerService.uploadProfilePic(id, file);
     }
 
 

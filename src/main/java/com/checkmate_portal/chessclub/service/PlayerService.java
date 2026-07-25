@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -19,14 +22,16 @@ public class PlayerService {
 
     private final PlayerRepository playerRepository;
     private final PlayerConverter playerConverter;
+    private final FileStorageService fileStorageService;
 
 
     public Page<PlayerResponseDTO> getPlayers(Pageable pageable){
         return playerRepository.findAll(pageable).map(playerConverter::entityToDtos);
     }
-    public PlayerService(PlayerRepository playerRepository, PlayerConverter playerConverter){
+    public PlayerService(PlayerRepository playerRepository, PlayerConverter playerConverter,FileStorageService fileStorageService){
         this.playerRepository=playerRepository;
         this.playerConverter=playerConverter;
+        this.fileStorageService=fileStorageService;
     }
 
     public PlayerResponseDTO createPlayer(PlayerRequestDTO requestDTO){
@@ -57,6 +62,18 @@ public class PlayerService {
 
         return playerConverter.entityToDtos(updatedPlayer);
     }
+
+    public PlayerResponseDTO uploadProfilePic(Long id, MultipartFile file){
+        Player player=playerRepository.findById(id).orElseThrow(()->new RuntimeException("Player not found"));
+
+        //remove old photo
+        fileStorageService.deletePlayerPhoto(getTopPlayer().getProfilePicturePath());
+        String storedPath=fileStorageService.storePlayerPhoto(file);
+        getTopPlayer().setProfilePicturePath(storedPath);
+
+        Player updatedPlayer=playerRepository.save(player);
+        return playerConverter.entityToDtos(updatedPlayer);
+    }
     public void deletePlayer(Long id){
         playerRepository.findById(id).orElseThrow(()->new RuntimeException("Player not found"));
         playerRepository.deleteById(id);
@@ -81,6 +98,5 @@ public class PlayerService {
     public Player getTopPlayer(){
         return playerRepository.topPlayer();
     }
-
 
 }
