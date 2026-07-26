@@ -64,14 +64,12 @@ public class PlayerService {
     }
 
     public PlayerResponseDTO uploadProfilePic(Long id, MultipartFile file){
-        Player player=playerRepository.findById(id).orElseThrow(()->new RuntimeException("Player not found"));
-
-        //remove old photo
-        fileStorageService.deletePlayerPhoto(getTopPlayer().getProfilePicturePath());
-        String storedPath=fileStorageService.storePlayerPhoto(file);
-        getTopPlayer().setProfilePicturePath(storedPath);
-
-        Player updatedPlayer=playerRepository.save(player);
+        Player player = playerRepository.findById(id).orElseThrow(() -> new RuntimeException("Player not found"));
+        // remove old photo if exists
+        if (player.getProfilePicturePath() != null) {fileStorageService.deletePlayerPhoto(player.getProfilePicturePath());}
+        String storedPath = fileStorageService.storePlayerPhoto(file);
+        player.setProfilePicturePath(storedPath);
+        Player updatedPlayer = playerRepository.save(player);
         return playerConverter.entityToDtos(updatedPlayer);
     }
     public void deletePlayer(Long id){

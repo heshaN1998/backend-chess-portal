@@ -9,7 +9,7 @@ import java.io.File;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-    @Value("${app.upload.dir")
+    @Value("${app.upload.dir}")
     private String uploadDir;
 
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

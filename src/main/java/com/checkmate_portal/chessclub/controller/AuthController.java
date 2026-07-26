@@ -4,6 +4,8 @@ import com.checkmate_portal.chessclub.entity.User;
 import com.checkmate_portal.chessclub.service.AuthService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/auth/security")
 public class AuthController {
@@ -13,12 +15,12 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String register(@RequestBody User user){
+    public Map<String, String> register(@RequestBody User user){
         return authService.register(user);
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody User user){
+    public Map<String, String> login(@RequestBody User user){
         return authService.login(user.getUserName(),user.getPassword());
     }
 }
