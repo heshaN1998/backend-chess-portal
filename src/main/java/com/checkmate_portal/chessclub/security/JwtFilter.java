@@ -1,6 +1,7 @@
 package com.checkmate_portal.chessclub.security;
 
 import com.checkmate_portal.chessclub.JwtUtil;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,28 +25,47 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String authheader=request.getHeader("Authorization");
-        String token=null;
-        String userName=null;
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain)
+            throws ServletException, IOException {
 
-        if (authheader !=null && authheader.startsWith("Bearer")){
-            token=authheader.substring(7);
-            userName=jwtUtil.extractUsername(token);
+        String authHeader = request.getHeader("Authorization");
+
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+
+            String token = authHeader.substring(7);
+
+            try {
+                String userName = jwtUtil.extractUsername(token);
+
+                if (userName != null &&
+                        SecurityContextHolder.getContext().getAuthentication() == null) {
+
+                    UsernamePasswordAuthenticationToken authToken =
+                            new UsernamePasswordAuthenticationToken(
+                                    userName,
+                                    null,
+                                    Collections.emptyList()
+                            );
+
+                    authToken.setDetails(
+                            new WebAuthenticationDetailsSource()
+                                    .buildDetails(request)
+                    );
+
+                    SecurityContextHolder.getContext()
+                            .setAuthentication(authToken);
+                }
+
+            } catch (ExpiredJwtException e) {
+                System.out.println("JWT expired");
+            } catch (Exception e) {
+                System.out.println("Invalid JWT");
+            }
         }
-        if(request.getServletPath().startsWith("/auth/")){
-            filterChain.doFilter(request,response);
-            return;
-        }
-        if (userName != null && SecurityContextHolder.getContext().getAuthentication()==null){
-            UsernamePasswordAuthenticationToken authToken= new UsernamePasswordAuthenticationToken(userName,null, Collections.emptyList());
 
-            authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-            SecurityContextHolder.getContext().setAuthentication(authToken);
-        }
-        filterChain.doFilter(request,response);
-
+        filterChain.doFilter(request, response);
     }
 
 
